@@ -1,0 +1,97 @@
+/* Container for the login page */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f4f4f9; /* Light background color for the page */
+    padding: 20px;
+  }
+  
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff; /* White background for the login container */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .login-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #5e35b1; /* Purple color for the title */
+  }
+  
+  .login-form {
+    width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .error-message {
+    color: #e53935; /* Red color for error messages */
+    margin-top: 5px;
+  }
+  
+  .login-button {
+    background: #5e35b1; /* Purple color for the button */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+  }
+  
+  .login-button:disabled {
+    background: #b39ddb; /* Lighter purple when button is disabled */
+  }
+  
+  .forgot-password-link {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .forgot-password-link a {
+    color: #5e35b1; /* Purple color for the link */
+    text-decoration: none;
+  }
+  
+  .forgot-password-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Image container */
+  .image-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 100px;
+  }
+  
+  .image-container img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  

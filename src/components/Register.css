@@ -1,0 +1,103 @@
+/* Container for the register page */
+.register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f4f4f9; /* Light background color for the page */
+    padding: 20px;
+  }
+  
+  .register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff; /* White background for the register container */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+  }
+  
+  .image-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #5e35b1; /* Purple border color */
+    margin-bottom: 10px; /* Space between image and title */
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .register-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #5e35b1; /* Purple color for the title */
+  }
+  
+  .register-form {
+    width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .error-message {
+    color: #e53935; /* Red color for error messages */
+    margin-top: 5px;
+  }
+  
+  .register-button {
+    background: #5e35b1; /* Purple color for the button */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .register-button:disabled {
+    background: #b39ddb; /* Lighter purple when button is disabled */
+  }
+  
+  .login-link-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .login-link {
+    color: #5e35b1; /* Purple color for the link */
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .login-link:hover {
+    text-decoration: underline;
+  }
+  

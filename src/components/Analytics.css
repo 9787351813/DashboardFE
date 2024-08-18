@@ -1,0 +1,68 @@
+
+  
+
+  .chart-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+  }
+  
+ 
+  .imc{
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+  }
+  
+  /* Ensuring charts are centered */
+  .chart-container canvas {
+    display: block;
+    margin: 0 auto;
+  }
+  .icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Background colors for icons */
+  .icon-total-employees {
+    color: #ffffff;
+    background-color: #007bff;
+    padding: 15px;
+    border-radius: 50%;
+  }
+  
+  .icon-attrition-count {
+    color: #ffffff;
+    background-color: #dc3545;
+    padding: 15px;
+    border-radius: 50%;
+  }
+  
+  .icon-attrition-rate {
+    color: #ffffff;
+    background-color: #ffc107;
+    padding: 15px;
+    border-radius: 50%;
+  }
+  
+  .icon-active-employees {
+    color: #ffffff;
+    background-color: #28a745;
+    padding: 15px;
+    border-radius: 50%;
+  }  

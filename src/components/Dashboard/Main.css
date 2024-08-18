@@ -1,0 +1,51 @@
+/* Main.css */
+
+.total-box {
+  padding: 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.total-employees {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+}
+
+.total-clients {
+  background: linear-gradient(135deg, #3af6e3, #2575fc);
+}
+
+.total-leave-requests {
+  background: linear-gradient(135deg, #dfda4b, #de6161);
+}
+
+.total-projects {
+  background: linear-gradient(135deg, #eb0bc6, #0072ff);
+}
+
+/* Ensure that icons are centered within their containers */
+.total-box i {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.total-box h3 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* Additional styling for cards and tables */
+.card {
+  margin-bottom: 20px;
+}
+
+.table img {
+  border-radius: 50%;
+}
+
+.circular-progressbar {
+  margin: auto;
+}

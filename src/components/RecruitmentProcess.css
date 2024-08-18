@@ -1,0 +1,54 @@
+/* General styling */
+h2 {
+  font-weight: bold;
+  color: #6f09a2c8; /* Purple color for the heading */
+}
+
+/* Custom card styling with multi-colored boxes */
+.custom-card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+}
+
+.custom-card:nth-child(1) {
+  border-color: #007bff; /* Blue */
+}
+
+.custom-card:nth-child(2) {
+  border-color: #28a745; /* Green */
+}
+
+.custom-card:nth-child(3) {
+  border-color: #ffc107; /* Yellow */
+}
+
+.custom-card:nth-child(4) {
+  border-color: #dc3545; /* Red */
+}
+
+/* Chart card styling */
+/* RecruitmentProcess.css */
+
+/* General card styling */
+.custom-card, .custom-chart-card, .custom-table-card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #6f09a2c8;
+}
+
+/* Chart container styling */
+.custom-chart-card .card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+/* Specific pie chart styling */
+.small-pie-chart canvas {
+  max-height: 100%; /* Ensure the pie chart fits within the container */
+  max-width: 100%; /* Ensure the pie chart fits within the container */
+}

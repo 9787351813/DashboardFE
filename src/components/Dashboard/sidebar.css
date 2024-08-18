@@ -1,0 +1,72 @@
+.sidebar {
+  position: fixed; /* Position the sidebar fixed to the viewport */
+  top: 0;
+  left: 0; /* Align to the left */
+  width: 250px;
+  height: 100vh;
+  background-color: #8249f2;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: white;
+  z-index: 1000; /* Ensure the sidebar is on top */
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  margin-top: 10px;
+  font-size: 18px;
+  color: white;
+}
+
+.header-icon {
+  color: white;
+  margin-right: 10px; /* Space between icon and text */
+}
+
+.header-title {
+  color: white;
+  margin: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Ensure the list items grow to fill the sidebar */
+}
+
+.sidebar ul li {
+  margin-bottom: 40px; /* Increase spacing between list items */
+  display: flex;
+  align-items: center;
+}
+
+.sidebar ul li .icon {
+  margin-right: 10px; /* Space between icon and text */
+  color: white; /* Ensure icon color matches text color */
+}
+
+.sidebar ul li a,
+.sidebar ul li .logout-link {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  width: 100%; /* Ensure the link covers the full width of the sidebar */
+  display: block; /* Make the link block-level for easier clicking */
+  cursor: pointer; /* Add cursor pointer for logout link */
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li .logout-link:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Add a background color on hover */
+  border-radius: 4px; /* Slightly round the corners of the hover effect */
+  text-decoration: none; /* Remove underline on hover */
+  padding: 5px 10px; /* Add some padding to the hover effect */
+}

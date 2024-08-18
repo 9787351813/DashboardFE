@@ -1,0 +1,20 @@
+.app-container {
+    display: flex;
+  }
+  
+  .content {
+    margin-left: 250px; /* Adjust to make room for the sidebar */
+    margin-top: 60px; /* Adjust to make room for the navbar */
+    padding: 20px;
+  }
+  
+  .App {
+    display: flex;
+  }
+  
+  .content {
+    margin-left: 250px; /* Adjust this according to your sidebar width */
+    padding: 20px;
+    width: calc(100% - 250px); /* Adjust this according to your sidebar width */
+  }
+  

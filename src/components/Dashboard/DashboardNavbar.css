@@ -1,0 +1,86 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 250px; /* Adjust to start where the sidebar ends */
+  width: calc(100% - 250px);
+  height: 60px; /* Adjust height as needed */
+  background-color: #8249f2; /* Contrasting color to sidebar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 999; /* Ensure navbar is on top */
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Ensure it is pushed to the right */
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* Reduce margin to move closer to notification icon */
+}
+
+.search-input {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.search-icon {
+  color: white;
+  margin-right: 8px;
+}
+
+.notification-icon, .logout-icon {
+  color: white;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.Dashboard {
+  color: white;
+}
+
+.avatar-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.welcome-message {
+  color: white;
+}
+
+.notification-card {
+  position: absolute;
+  top: 60px; /* Just below the navbar */
+  right: 0; /* Position it at the right edge of the screen */
+  height: calc(100vh - 60px); /* Full height of the screen minus the navbar */
+  width: 300px; /* Adjust width as needed */
+  background-color: lightgray;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); /* Shadow to the left side */
+  padding: 20px;
+  border-radius: 0; /* Remove border radius for full-height effect */
+  z-index: 1000; /* Ensure it appears on top of other content */
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #333;
+}
