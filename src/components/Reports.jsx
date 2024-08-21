@@ -16,7 +16,7 @@ const ReportsPage = () => {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/reports'); 
+        const response = await axios.get('https://dashboardbe-2.onrender.com/api/reports'); 
 
         const reportsData = response.data;
 

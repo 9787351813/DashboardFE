@@ -14,7 +14,7 @@ const PerformanceEvaluationDashboard = () => {
     // Fetch performance data from backend
     const fetchPerformanceData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/performance', {
+        const response = await fetch('https://dashboardbe-2.onrender.com/api/performance', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Assuming you store the token in local storage
           }

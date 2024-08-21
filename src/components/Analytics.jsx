@@ -22,7 +22,7 @@ const Analytics = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/analytics', {
+        const response = await axios.get('https://dashboardbe-2.onrender.com/api/analytics', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // Adjust token storage method as needed
           },

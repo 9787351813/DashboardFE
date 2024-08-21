@@ -39,7 +39,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/main', {
+        const response = await axios.get('https://dashboardbe-2.onrender.com/api/main', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

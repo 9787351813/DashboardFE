@@ -19,7 +19,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', values);
+      const response = await axios.post('https://dashboardbe-2.onrender.com/api/auth/login', values);
       if (response.data.token) {
         console.log('Login successful');
         navigate('/dashboard');
