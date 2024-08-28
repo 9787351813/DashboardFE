@@ -56,10 +56,7 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={faFileAlt} className="icon" />
           <Link to="/reports">Reports</Link>
         </li>
-        <li>
-          <FontAwesomeIcon icon={faFileAlt} className="icon" />
-          <Link to="/analytics">Analytics</Link>
-        </li>
+       
       </ul>
       <hr />
       <ul>

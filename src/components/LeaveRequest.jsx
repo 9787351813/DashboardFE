@@ -1,361 +1,213 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Card, Form, Table, Modal } from "react-bootstrap";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheckCircle,
-  faClock,
-  faAddressBook,
-  faTimesCircle,
-  faEdit,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import "./LeaveRequest.css"; // Import the CSS file
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FaClock, FaCheck, FaTimes } from 'react-icons/fa';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './LeaveRequest.css'; // Custom CSS
 
-const LeaveRequest = () => {
-  const [leaveData, setLeaveData] = useState([
-    { id: 1, type: "Annual Leave", start: "2024-08-01", end: "2024-08-05", status: "Approved" },
-    { id: 2, type: "Sick Leave", start: "2024-08-10", end: "2024-08-12", status: "Pending" },
-    { id: 3, type: "Unpaid Leave", start: "2024-08-15", end: "2024-08-20", status: "Declined" },
-    { id: 4, type: "Annual Leave", start: "2024-09-01", end: "2024-09-05", status: "Approved" },
-    { id: 5, type: "Sick Leave", start: "2024-09-10", end: "2024-09-12", status: "Pending" },
-    { id: 6, type: "Unpaid Leave", start: "2024-09-15", end: "2024-09-20", status: "Approved" },
-  ]);
-
-  const [leaveCounts, setLeaveCounts] = useState({
-    approved: 0,
-    pending: 0,
-    declined: 0,
-    requests: 0,
-  });
-
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [newLeave, setNewLeave] = useState({
-    type: "Annual Leave",
-    start: "",
-    end: "",
-    status: "Pending",
-  });
-
-  const [currentLeave, setCurrentLeave] = useState(null);
+const LeaveRequestPage = () => {
+  const [leaves, setLeaves] = useState([]);
+  const [filteredLeaves, setFilteredLeaves] = useState([]);
+  const [newLeave, setNewLeave] = useState({ type: '', start: '', end: '', status: 'Pending' });
+  const [leaveType, setLeaveType] = useState('All');
+  const [circularData, setCircularData] = useState({ pending: 0, approved: 0, declined: 0 });
 
   useEffect(() => {
-    const counts = {
-      approved: leaveData.filter(leave => leave.status === "Approved").length,
-      pending: leaveData.filter(leave => leave.status === "Pending").length,
-      declined: leaveData.filter(leave => leave.status === "Declined").length,
-      requests: leaveData.length,
-    };
+    fetchLeaves();
+  }, []);
 
-    setLeaveCounts(counts);
-  }, [leaveData]);
+  useEffect(() => {
+    filterLeaves();
+  }, [leaveType, leaves]);
 
-  const leaveAllowance = 30; // Example data
-  const remainingAllowance = 20; // Example data
-  const leaveUsed = leaveAllowance - remainingAllowance; // Example data
-
-  const remainingPercentage = (remainingAllowance / leaveAllowance) * 100;
-  const usedPercentage = (leaveUsed / leaveAllowance) * 100;
-
-  const leaveTypeOptions = ["All", "Unpaid Leave", "Annual Leave"];
-
-  const handleAddLeave = () => {
-    setCurrentLeave(null);
-    setNewLeave({
-      type: "Annual Leave",
-      start: "",
-      end: "",
-      status: "Pending",
-    });
-    setShowAddModal(true);
-  };
-
-  const handleCloseAddModal = () => setShowAddModal(false);
-
-  const handleCloseEditModal = () => setShowEditModal(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewLeave(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (currentLeave) {
-      // Update existing leave request
-      setLeaveData(prevData =>
-        prevData.map(leave =>
-          leave.id === currentLeave.id
-            ? { ...currentLeave, ...newLeave }
-            : leave
-        )
-      );
-    } else {
-      // Add new leave request
-      setLeaveData(prevData => [
-        ...prevData,
-        { id: Date.now(), ...newLeave },
-      ]);
+  const fetchLeaves = async () => {
+    const token = localStorage.getItem('token');
+    console.log('Token from local storage:', localStorage.getItem('token'));
+    if (!token) {
+      console.error('No token found');
+      return;
     }
-    handleCloseAddModal();
+  
+    try {
+      const response = await axios.get('http://localhost:3000/api/leaves', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      if (response.status === 200) {
+        const leavesData = Array.isArray(response.data) ? response.data : [];
+        setLeaves(leavesData);
+        updateCircularProgress(leavesData);
+      } else {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching leaves:', error.response ? error.response.data : error.message);
+    }
+  };
+  
+
+  const filterLeaves = () => {
+    if (leaveType === 'All') {
+      setFilteredLeaves(leaves);
+    } else {
+      const filtered = leaves.filter(leave => leave.type === leaveType);
+      setFilteredLeaves(filtered);
+    }
   };
 
-  const handleEdit = (leave) => {
-    setCurrentLeave(leave);
-    setNewLeave({ ...leave });
-    setShowEditModal(true);
+  const updateCircularProgress = (leaves) => {
+    const pending = leaves.filter(leave => leave.status === 'Pending').length;
+    const approved = leaves.filter(leave => leave.status === 'Approved').length;
+    const declined = leaves.filter(leave => leave.status === 'Declined').length;
+
+    setCircularData({ pending, approved, declined });
   };
 
-  const handleDelete = (id) => {
-    setLeaveData(prevData => prevData.filter(leave => leave.id !== id));
+  const handleChange = (e) => {
+    setNewLeave({ ...newLeave, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await axios.post('http://localhost:3000/api/leaves', newLeave, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.status === 201) {
+        const updatedLeaves = [...leaves, response.data];
+        setLeaves(updatedLeaves);
+        setNewLeave({ type: '', start: '', end: '', status: 'Pending' });
+        updateCircularProgress(updatedLeaves);
+      } else {
+        console.error('Error: Leave not added successfully');
+      }
+    } catch (error) {
+      console.error('Error adding leave:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+
+    try {
+      await axios.delete(`http://localhost:3000/api/leaves/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const updatedLeaves = leaves.filter((leave) => leave._id !== id);
+      setLeaves(updatedLeaves);
+      updateCircularProgress(updatedLeaves);
+    } catch (error) {
+      console.error('Error deleting leave:', error.response ? error.response.data : error.message);
+    }
   };
 
   return (
-    <Container className="main-container">
-      <Row className="align-items-center mb-3">
-        <Col>
-          <h3>Leave Requests</h3>
-        </Col>
-        <Col className="d-flex justify-content-center">
-          <Button variant="primary" className="me-2" onClick={handleAddLeave}>
-            Add Leave
-          </Button>
-        </Col>
-      </Row>
+    <div className="container">
+      <h2 className="mt-4 mb-4">Leave Requests</h2>
 
-      <Card className="mb-4 man">
-        <Card.Body>
-          <Row>
-            <Col md={8}>
-              <Card className="info-card mb-4">
-                <Card.Body>
-                  <h4>Leave Allowance</h4>
-                  <h2>{leaveAllowance} hrs</h2>
-                  <Form.Group controlId="leaveType" className="mt-3">
-                    <Form.Label>Leave Type</Form.Label>
-                    <Form.Control
-                      as="select"
-                      style={{
-                        width: "200px",
-                        display: "inline-block",
-                      }}
-                    >
-                      {leaveTypeOptions.map((option, index) => (
-                        <option key={index} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
-                </Card.Body>
-              </Card>
+      <form onSubmit={handleSubmit} className="mb-4">
+        <div className="form-row">
+          <div className="form-group col-md-3">
+            <input
+              type="text"
+              name="type"
+              className="form-control"
+              placeholder="Leave Type"
+              value={newLeave.type}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group col-md-3">
+            <input
+              type="date"
+              name="start"
+              className="form-control"
+              value={newLeave.start}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group col-md-3">
+            <input
+              type="date"
+              name="end"
+              className="form-control"
+              value={newLeave.end}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group col-md-3">
+            <select name="status" className="form-control" value={newLeave.status} onChange={handleChange}>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Declined">Declined</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary">Add Leave</button>
+      </form>
 
-              {/* Progress Cards */}
-              <Row className="text-center mb-4 progress-cards-row">
-                <Col xs={6}>
-                  <Card className="mb-3 progress-card">
-                    <Card.Body>
-                      <h5>Remaining Allowance</h5>
-                      <div className="circular-progress-container">
-                        <CircularProgressbar
-                          value={remainingPercentage}
-                          text={`${remainingPercentage.toFixed(1)}%`}
-                          styles={buildStyles({
-                            pathColor: "#36A2EB",
-                            textColor: "#000",
-                          })}
-                        />
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col xs={6}>
-                  <Card className="mb-3 progress-card">
-                    <Card.Body>
-                      <h5>Leave Used</h5>
-                      <div className="circular-progress-container">
-                        <CircularProgressbar
-                          value={usedPercentage}
-                          text={`${usedPercentage.toFixed(1)}%`}
-                          styles={buildStyles({
-                            pathColor: "#FF6384",
-                            textColor: "#000",
-                          })}
-                        />
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
+      <div className="form-group mt-3">
+        <label htmlFor="leaveType">Select Leave Type</label>
+        <select id="leaveType" className="form-control" value={leaveType} onChange={(e) => setLeaveType(e.target.value)}>
+          <option value="All">All</option>
+          <option value="Unpaid Leave">Unpaid Leave</option>
+          <option value="Annual Leave">Annual Leave</option>
+        </select>
+      </div>
 
-            {/* Right Side: Two Rows of Small Cards */}
-            <Col md={4}>
-              {/* First Row of Small Cards */}
-              <Row className="text-center mb-4 small-cards-row">
-                <Col xs={6}>
-                  <Card className="small-card">
-                    <Card.Body>
-                      <FontAwesomeIcon icon={faCheckCircle} size="3x" color="green" />
-                      <h5 className="mt-2">Approved</h5>
-                      <h4>{leaveCounts.approved}</h4>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col xs={6}>
-                  <Card className="small-card">
-                    <Card.Body>
-                      <FontAwesomeIcon icon={faClock} size="3x" color="orange" />
-                      <h5 className="mt-2">Pending</h5>
-                      <h4>{leaveCounts.pending}</h4>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-
-              {/* Second Row of Small Cards */}
-              <Row className="text-center small-cards-row">
-                <Col xs={6}>
-                  <Card className="small-card">
-                    <Card.Body>
-                      <FontAwesomeIcon icon={faTimesCircle} size="3x" color="red" />
-                      <h5 className="mt-2">Declined</h5>
-                      <h4>{leaveCounts.declined}</h4>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col xs={6}>
-                  <Card className="small-card">
-                    <Card.Body>
-                      <FontAwesomeIcon icon={faAddressBook} size="3x" color="blue" />
-                      <h5 className="mt-2">Requests</h5>
-                      <h4>{leaveCounts.requests}</h4>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-
-      <Table bordered hover>
-        <thead>
-          <tr>
-            <th>Leave Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaveData.map((leave, index) => (
-            <tr key={index}>
-              <td>{leave.type}</td>
-              <td>{leave.start}</td>
-              <td>{leave.end}</td>
-              <td>
-                <span
-                  className={`badge ${
-                    leave.status === "Approved"
-                      ? "bg-success"
-                      : leave.status === "Pending"
-                      ? "bg-warning"
-                      : "bg-danger"
-                  }`}
-                >
-                  {leave.status}
-                </span>
-              </td>
-              <td>
-                <Button
-                  variant="outline-primary"
-                  onClick={() => handleEdit(leave)}
-                >
-                  <FontAwesomeIcon icon={faEdit} />
-                </Button>
-              </td>
-              <td>
-                <Button
-                  variant="outline-danger"
-                  onClick={() => handleDelete(leave.id)}
-                >
-                  <FontAwesomeIcon icon={faTrash} />
-                </Button>
-              </td>
+      <div className="table-responsive info-card mt-3">
+        <table className="table table-bordered table-hover">
+          <thead className="thead-dark">
+            <tr>
+              <th>Type</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {filteredLeaves.map((leave) => (
+              <tr key={leave._id}>
+                <td>{leave.type}</td>
+                <td>{new Date(leave.start).toLocaleDateString()}</td>
+                <td>{new Date(leave.end).toLocaleDateString()}</td>
+                <td>
+                  {leave.status === 'Pending' && <FaClock className="text-warning" />}
+                  {leave.status === 'Approved' && <FaCheck className="text-success" />}
+                  {leave.status === 'Declined' && <FaTimes className="text-danger" />}
+                  {' '}{leave.status}
+                </td>
+                <td>
+                  <button className="btn btn-danger" onClick={() => handleDelete(leave._id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      {/* Add/Edit Modal */}
-      <Modal show={showAddModal || showEditModal} onHide={handleCloseAddModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{currentLeave ? "Edit Leave" : "Add Leave"}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="type" className="mb-3">
-              <Form.Label>Leave Type</Form.Label>
-              <Form.Control
-                as="select"
-                name="type"
-                value={newLeave.type}
-                onChange={handleInputChange}
-              >
-                {leaveTypeOptions.slice(1).map((option, index) => (
-                  <option key={index} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="start" className="mb-3">
-              <Form.Label>Start Date</Form.Label>
-              <Form.Control
-                type="date"
-                name="start"
-                value={newLeave.start}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="end" className="mb-3">
-              <Form.Label>End Date</Form.Label>
-              <Form.Control
-                type="date"
-                name="end"
-                value={newLeave.end}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="status" className="mb-3">
-              <Form.Label>Status</Form.Label>
-              <Form.Control
-                as="select"
-                name="status"
-                value={newLeave.status}
-                onChange={handleInputChange}
-              >
-                <option value="Pending">Pending</option>
-                <option value="Approved">Approved</option>
-                <option value="Declined">Declined</option>
-              </Form.Control>
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              {currentLeave ? "Update" : "Add"}
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </Container>
+      <div className="circular-progress mt-4">
+        <CircularProgress label="Pending" value={circularData.pending} />
+        <CircularProgress label="Approved" value={circularData.approved} />
+        <CircularProgress label="Declined" value={circularData.declined} />
+      </div>
+    </div>
   );
 };
 
-export default LeaveRequest;
+const CircularProgress = ({ label, value }) => (
+  <div className="progress-card">
+    <h5>{label}</h5>
+    <div className="circular-progress-bar">
+      {value}
+    </div>
+  </div>
+);
+
+export default LeaveRequestPage;

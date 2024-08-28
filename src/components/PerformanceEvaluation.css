@@ -1,111 +1,118 @@
-/* Outer container styling */
-.outer-container {
+/* Container styling */
+.container {
+  max-width: 1200px;
+  margin: auto;
   padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 2px solid #6f09a2c8; /* Border color for the outer container */
-}
-
-/* Heading styling */
-h2 {
-  font-weight: bold;
-  color: #6f09a2c8; /* Matching the border color */
-}
-
-/* Chart container styling */
-.chart-container {
-  padding: 5px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 2px solid #6f09a2c8; /* Border color */
-  height: 100%; 
-
-}
-
-/* Employee boxes styling */
-.employee-boxes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  height: 100%;
-  align-items: center;
-  border: 2px solid #6f09a2c8; /* Border color for the employee boxes */
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.card.mb-3.p-2.text-center {
-  width: 100px;
-  height: 120px;
-  margin: 5px;
-  background-color: #f8f9fa;
-  border: 1px solid #e0e0e0;
+  background-color: #f7f7f7;
   border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Purple button variant */
+.btn-purple {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+  color: white;
+}
+.btn-purple:hover {
+  background-color: #563d7c;
+  border-color: #563d7c;
+}
+
+/* Dashboard cards */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.dashboard-cards .card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-cards .card:hover {
+  transform: translateY(-5px);
+}
+
+.dashboard-cards .card h4 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.dashboard-cards .card span {
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.dashboard-cards {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  
 }
 
-.card.mb-3.p-2.text-center img {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
+/* Responsive table */
+.table {
+  margin-bottom: 30px;
+  background-color: #fff;
 }
 
-.card.mb-3.p-2.text-center h6 {
-  font-size: 14px;
-  margin: 0;
+@media (max-width: 768px) {
+  .table thead {
+      display: none;
+  }
+  .table tr {
+      display: block;
+      margin-bottom: 15px;
+  }
+  .table td {
+      display: block;
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+  }
+  .table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 15px;
+      text-align: left;
+      font-weight: bold;
+  }
 }
-
-.card.mb-3.p-2.text-center p {
-  font-size: 12px;
-  margin: 5px 0 0;
-  color: #fff;
-  padding: 2px 5px;
-  border-radius: 4px;
-}
-
-/* Color coding for performance percentages */
-.performance-high {
-  background-color: #28a745;
-}
-
-.performance-medium {
-  background-color: #ffc107;
-}
-
-.performance-low {
-  background-color: #dc3545;
-}
-
-/* Line chart container */
-/* Line chart container */
-.line-chart-container {
-  padding: 10px;
-  background-color: #f8f9fa;
+.card {
+  flex: 1;
+  min-width: 200px;
+  padding: 20px;
+  border: 2px solid purple;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 300px;
-  border: 2px solid #6f09a2c8; /* Border color for the line chart container */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: linear-gradient(135deg, #f0f0f0, #ffffff);
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #333;
 }
 
-
-/* Pie chart container */
-.pie-chart-container {
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 300px;
-  border: 2px solid #6f09a2c8; /* Border color for the pie chart container */
+/* Icon colors */
+.card .bi-people-fill {
+  color: blue;
 }
+
+.card .bi-flag-fill {
+  color: yellow;
+}
+
+.card .bi-chat-left-text-fill {
+  color: green;
+}
+
+.card .bi-star-fill {
+  color: orange;
+}
+

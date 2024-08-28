@@ -1,51 +1,52 @@
 /* Main.css */
 
-.total-box {
-  padding: 20px;
+/* Purple text color */
+.purple-text {
+  color: purple;
+}
+
+/* Card styling */
+.dashboard-card {
+  border: 2px solid purple;
   border-radius: 8px;
-  color: #fff;
-  font-size: 1.2rem;
+  background-color: #cb1515; /* Light background color */
+  height: 100%; /* Ensure the card takes the full height of its column */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  margin-bottom: 20px;
 }
 
-.total-employees {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+.card-title {
+  font-size: 1.25rem; /* Adjust as needed */
 }
 
-.total-clients {
-  background: linear-gradient(135deg, #3af6e3, #2575fc);
+.card-text {
+  font-size: 1.5rem; /* Adjust as needed */
 }
 
-.total-leave-requests {
-  background: linear-gradient(135deg, #dfda4b, #de6161);
+/* Container for charts and todo list */
+.content-container {
+  border: 2px solid purple;
+  border-radius: 8px;
+  background-color: #f9f9f9; /* Light background color */
+  padding: 15px;
+}
+h2{
+  padding-top: 20px;
+}
+/* Specific container for chart */
+.chart-container {
+  border: 2px solid purple;
+  border-radius: 8px;
+  background-color: whitesmoke; /* White background for the chart */
+  padding: 15px;
 }
 
-.total-projects {
-  background: linear-gradient(135deg, #eb0bc6, #0072ff);
-}
-
-/* Ensure that icons are centered within their containers */
-.total-box i {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 10px;
-}
-
-.total-box h3 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-/* Additional styling for cards and tables */
-.card {
-  margin-bottom: 20px;
-}
-
-.table img {
-  border-radius: 50%;
-}
-
-.circular-progressbar {
-  margin: auto;
+/* Specific container for todo list */
+.todo-container {
+  border: 2px solid purple;
+  border-radius: 8px;
+  background-color: rgb(129, 237, 129); /* White background for the todo list */
+  padding: 15px;
 }

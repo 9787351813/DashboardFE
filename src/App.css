@@ -18,3 +18,93 @@
     width: calc(100% - 250px); /* Adjust this according to your sidebar width */
   }
   
+  /* src/styles/custom.css */
+.employee-row {
+  transition: background-color 0.3s ease;
+}
+
+.employee-row:hover {
+  background-color: #f0f8ff;
+}
+
+.employee-list-item {
+  transition: transform 0.2s ease;
+}
+
+.employee-list-item:hover {
+  transform: scale(1.02);
+}
+/* Container for the Application Table */
+.table-container {
+  width: 80%;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+/* Header Styles */
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Row hover effect */
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Button styles */
+button {
+  padding: 0.5rem 1rem;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Success button */
+button:nth-child(1) {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Danger button */
+button:nth-child(2) {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

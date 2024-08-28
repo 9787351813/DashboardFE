@@ -1,0 +1,43 @@
+.todo-list {
+    border: 1px solid #4d15db;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: greenyellow;
+}
+
+.todo-input {
+    margin-bottom: 15px;
+}
+
+.todo-input input {
+    margin-right: 10px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+li.completed {
+    text-decoration: line-through;
+}
+
+button {
+    margin-left: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

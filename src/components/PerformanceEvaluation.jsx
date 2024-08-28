@@ -1,140 +1,208 @@
 import React, { useEffect, useState } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
-import { Bar, Line, Pie } from 'react-chartjs-2';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './PerformanceEvaluation.css'; 
+import axios from 'axios';
+import { Modal, Button } from 'react-bootstrap';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './PerformanceEvaluation.css'; // Import the CSS file
 
-// Register the necessary components from Chart.js
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ArcElement);
+const PerformanceTable = () => {
+    const [performances, setPerformances] = useState([]);
+    const [selectedPerformance, setSelectedPerformance] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({});
+    const [isNew, setIsNew] = useState(false);
 
-const PerformanceEvaluationDashboard = () => {
-  const [performanceData, setPerformanceData] = useState(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/api/performance');
+                setPerformances(response.data);
+            } catch (error) {
+                console.error('Error fetching performance data:', error);
+            }
+        };
+        fetchData();
+    }, []);
 
-  useEffect(() => {
-    // Fetch performance data from backend
-    const fetchPerformanceData = async () => {
-      try {
-        const response = await fetch('https://dashboardbe-2.onrender.com/api/performance', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('jwtToken')}` // Assuming you store the token in local storage
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch performance data');
-        }
-
-        const data = await response.json();
-        setPerformanceData(data);
-      } catch (error) {
-        console.error('Error fetching performance data:', error);
-      }
+    const handleEditClick = (performance) => {
+        setSelectedPerformance(performance);
+        setFormData(performance);
+        setIsNew(false);
+        setShowModal(true);
     };
 
-    fetchPerformanceData();
-  }, []);
+    const handleAddClick = () => {
+        setFormData({
+            employeeName: '',
+            goals: '',
+            feedback: '',
+            rating: '',
+            date: new Date().toISOString().substring(0, 10),
+        });
+        setIsNew(true);
+        setShowModal(true);
+    };
 
-  // Fallback data if no performanceData is available
-  const defaultDepartmentBarData = {
-    labels: ['HR', 'Sales', 'Engineering', 'Marketing', 'Finance'],
-    datasets: [
-      {
-        label: 'Department Performance',
-        data: performanceData ? performanceData.departmentPerformance : [75, 85, 90, 80, 70],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)'
-        ],
-      },
-    ],
+    const handleSave = async () => {
+        if (isNew) {
+            try {
+                const response = await axios.post('http://localhost:3000/api/performance', formData);
+                setPerformances([...performances, response.data]);
+                alert('Added successfully');
+            } catch (error) {
+                console.error('Error adding performance record:', error);
+            }
+        } else {
+            await handleUpdate(); // Handle update if not new
+        }
+        setShowModal(false);
+    };
+
+    const handleUpdate = async () => {
+        try {
+            const response = await axios.put(`http://localhost:3000/api/performance/${selectedPerformance._id}`, formData);
+            setPerformances(performances.map(p => p._id === selectedPerformance._id ? response.data : p));
+            alert('Updated successfully');
+        } catch (error) {
+            console.error('Error updating performance record:', error);
+        }
+    };
+
+    const handleDelete = async (id) => {
+      try {
+          await axios.delete(`http://localhost:3000/api/performance/${id}`);
+          setPerformances(performances.filter(p => p._id !== id));
+          alert('Deleted successfully');
+      } catch (error) {
+          console.error('Error deleting performance record:', error);
+          alert('Error deleting performance record');
+      }
   };
+  
 
-  const defaultLineData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        label: 'Performance Over Time',
-        data: performanceData ? performanceData.performanceOverTime : [65, 59, 80, 81, 56, 55],
-        fill: false,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-      },
-    ],
-  };
+    return (
+        <div className="container mt-5">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+                <h2>Performance Table</h2>
+                <Button variant="success" onClick={handleAddClick}>
+                    <i className="bi bi-plus-lg"></i> Add Performance
+                </Button>
+            </div>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Goals</th>
+                        <th>Feedback</th>
+                        <th>Rating</th>
+                        <th>Date</th>
+                        <th>Manage</th> {/* Column for Manage and Delete */}
+                    </tr>
+                </thead>
+                <tbody>
+                    {performances.map(performance => (
+                        <tr key={performance._id}>
+                            <td>
+                                
+                                {performance.employeeName}
+                            </td>
+                            <td>{performance.goals}</td>
+                            <td>{performance.feedback}</td>
+                            <td>{performance.rating}</td>
+                            <td>{new Date(performance.date).toLocaleDateString()}</td>
+                            <td>
+                                <Button variant="purple" onClick={() => handleEditClick(performance)}>
+                                    <i className="bi bi-pencil-square"></i> Manage
+                                </Button>
+                                <Button variant="danger" onClick={() => handleDelete(performance._id)}>
+                    <i className="bi bi-trash"></i> Delete
+                </Button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
 
-  const defaultPieData = {
-    labels: ['<$50K', '$50K-$100K', '$100K-$150K', '>$150K'],
-    datasets: [
-      {
-        label: 'Employee Count by Salary Range',
-        data: performanceData ? performanceData.salaryDistribution : [10, 30, 15, 5],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)'
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <Modal.Header closeButton>{isNew ? "Add Performance" : "Edit Performance"}</Modal.Header>
+                <Modal.Body>
+                    <input
+                        type="text"
+                        className="form-control mb-2"
+                        placeholder="Employee Name"
+                        value={formData.employeeName}
+                        onChange={(e) => setFormData({ ...formData, employeeName: e.target.value })}
+                        readOnly={!isNew}
+                    />
+                    <input
+                        type="text"
+                        className="form-control mb-2"
+                        placeholder="Goals"
+                        value={formData.goals}
+                        onChange={(e) => setFormData({ ...formData, goals: e.target.value })}
+                    />
+                    <textarea
+                        className="form-control mb-2"
+                        placeholder="Feedback"
+                        value={formData.feedback}
+                        onChange={(e) => setFormData({ ...formData, feedback: e.target.value })}
+                    />
+                    <input
+                        type="number"
+                        className="form-control mb-2"
+                        placeholder="Rating"
+                        value={formData.rating}
+                        onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
+                    />
+                    <input
+                        type="date"
+                        className="form-control"
+                        value={formData.date}
+                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
+                    <Button variant="primary" onClick={handleSave}>{isNew ? "Add" : "Save"}</Button>
+                </Modal.Footer>
+            </Modal>
 
-  const employees = performanceData ? performanceData.employees : [
-    { id: 1, name: 'John Doe', percentage: '75%', avatar: 'https://avatars.design/wp-content/uploads/2016/09/avatar1b.jpg', colorClass: 'performance-medium' },
-    { id: 2, name: 'Jane Smith', percentage: '88%', avatar: 'https://cdn.pixabay.com/photo/2016/08/20/05/38/avatar-1606916_1280.png', colorClass: 'performance-high' },
-    { id: 3, name: 'Bob Johnson', percentage: '92%', avatar: 'https://cdn.vectorstock.com/i/1000v/49/86/man-character-face-avatar-in-glasses-vector-17074986.jpg', colorClass: 'performance-high' },
-    { id: 4, name: 'Alice Brown', percentage: '70%', avatar: 'https://i.pinimg.com/originals/db/fa/08/dbfa0875b8925919a3f16d53d9989738.png', colorClass: 'performance-medium' },
-    { id: 5, name: 'Charlie White', percentage: '85%', avatar: 'https://static.vecteezy.com/system/resources/previews/009/398/577/original/man-avatar-clipart-illustration-free-png.png', colorClass: 'performance-high' },
-    { id: 6, name: 'Oscar Walker', percentage: '75%', avatar: 'https://www.pngarts.com/files/5/Cartoon-Avatar-PNG-Image-Background.png', colorClass: 'performance-medium' },
-  ];
+            <div className="dashboard-cards">
+                <div className="card">
+                    <h4><i className="bi bi-people-fill"></i> Employees</h4>
+                    <span>{performances.length}</span>
+                </div>
+                <div className="card">
+                    <h4><i className="bi bi-flag-fill"></i> Goals</h4>
+                    <span>{performances.length}</span>
+                </div>
+                <div className="card">
+                    <h4><i className="bi bi-chat-left-text-fill"></i> Feedback</h4>
+                    <span>{performances.length}</span>
+                </div>
+                <div className="card">
+                    <h4><i className="bi bi-star-fill"></i> Average Rating</h4>
+                    <span>
+                        {
+                            performances.length > 0
+                            ? (() => {
+                                const validRatings = performances
+                                    .map(p => parseFloat(p.rating))
+                                    .filter(rating => !isNaN(rating));
 
-  return (
-    <div className="outer-container mt-5">
-      <h2 className="text-center mb-5">Performance Evaluation</h2>
-      <div className="row">
-        {/* Left side: Department-wise Bar Chart */}
-        <div className="col-md-8">
-          <div className="chart-container">
-            <Bar data={defaultDepartmentBarData}  />
-          </div>
+                                const ratingSum = validRatings.reduce((acc, r) => acc + r, 0);
+                                const ratingCount = validRatings.length;
+
+                                return ratingCount > 0 
+                                    ? (ratingSum / ratingCount).toFixed(2)
+                                    : 0;
+                            })()
+                            : 0
+                        }
+                    </span>
+                </div>
+            </div>
         </div>
-        {/* Right side: Employee Boxes */}
-        <div className="col-md-4">
-          <div className="employee-boxes">
-            {employees.map((employee) => (
-              <div key={employee.id} className="card mb-3 p-2 text-center">
-                <img src={employee.avatar} alt={employee.name} className="rounded-circle mb-2" />
-                <h6>{employee.name}</h6>
-                <p className={`percentage-badge ${employee.colorClass}`}>{employee.percentage}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      {/* Below: Line Chart and Pie Chart */}
-      <div className="row mt-5">
-        <div className="col-md-8">
-          <div className="line-chart-container">
-            <Line data={defaultLineData} />
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="pie-chart-container">
-            <Pie data={defaultPieData} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
-export default PerformanceEvaluationDashboard;
+export default PerformanceTable;
