@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import './Register.css'; // Import CSS file
+import './Register.css'; // Ensure this path is correct
 
 const Register = () => {
   const [error, setError] = useState(null);
@@ -13,7 +13,7 @@ const Register = () => {
     firstName: Yup.string().required('First Name is required'),
     lastName: Yup.string().required('Last Name is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -22,7 +22,7 @@ const Register = () => {
     console.log('Submitting registration data:', requestData);
 
     try {
-      const response = await axios.post('https://dashboardbe-3.onrender.com/api/auth/register', requestData);
+      const response = await axios.post('https://dashboardbe-4.onrender.com/api/auth/register', requestData);
       console.log('Registration successful:', response.data);
       navigate('/login');
     } catch (error) {
@@ -30,7 +30,7 @@ const Register = () => {
 
       if (error.response) {
         console.error('Error response:', error.response.data); // Log response data
-        setError(error.response.data.message || 'Registration failed. Please try again.');
+        setError(error.response.data.error || 'Registration failed. Please try again.');
       } else if (error.request) {
         console.error('Error request:', error.request);
         setError('No response from server. Please check your network.');

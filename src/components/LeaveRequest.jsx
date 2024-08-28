@@ -28,7 +28,7 @@ const LeaveRequestPage = () => {
     }
   
     try {
-      const response = await axios.get('https://dashboardbe-3.onrender.com/api/leaves', {
+      const response = await axios.get('https://dashboardbe-4.onrender.com/api/leaves', {
         headers: { Authorization: `Bearer ${token}` },
       });
   
@@ -71,7 +71,7 @@ const LeaveRequestPage = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.post('https://dashboardbe-3.onrender.com/api/leaves', newLeave, {
+      const response = await axios.post('https://dashboardbe-4.onrender.com/api/leaves', newLeave, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -92,7 +92,7 @@ const LeaveRequestPage = () => {
     const token = localStorage.getItem('token');
 
     try {
-      await axios.delete(`https://dashboardbe-3.onrender.com/api/leaves/${id}`, {
+      await axios.delete(`https://dashboardbe-4.onrender.com/api/leaves/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const updatedLeaves = leaves.filter((leave) => leave._id !== id);

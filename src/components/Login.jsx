@@ -19,13 +19,22 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await axios.post('https://dashboardbe-3.onrender.com/api/auth/login', values);
+      const response = await axios.post('https://dashboardbe-4.onrender.com/api/auth/login', values);
       if (response.data.token) {
+        // Save token in local storage or state
+        localStorage.setItem('token', response.data.token);
         console.log('Login successful');
-        navigate('/dashboard');
+        navigate('/dashboard'); // Redirect to the dashboard
       }
     } catch (err) {
-      setError('Email and password do not match');
+      // Check for error response and update the error message
+      if (err.response) {
+        setError(err.response.data.error || 'Login failed. Please try again.');
+      } else if (err.request) {
+        setError('No response from server. Please check your network.');
+      } else {
+        setError('Request setup error. Please try again.');
+      }
     }
     setSubmitting(false);
   };
@@ -45,13 +54,13 @@ const Login = () => {
           {({ isSubmitting }) => (
             <Form className="login-form">
               <div className="form-group">
-                <label>Email:</label>
-                <Field type="email" name="email" />
+                <label htmlFor="email">Email:</label>
+                <Field type="email" id="email" name="email" />
                 <ErrorMessage name="email" component="div" className="error-message" />
               </div>
               <div className="form-group">
-                <label>Password:</label>
-                <Field type="password" name="password" />
+                <label htmlFor="password">Password:</label>
+                <Field type="password" id="password" name="password" />
                 <ErrorMessage name="password" component="div" className="error-message" />
               </div>
               {error && <p className="error-message">{error}</p>}

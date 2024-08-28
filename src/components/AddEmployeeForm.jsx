@@ -13,7 +13,7 @@ const AddEmployee = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.post('https://dashboardbe-3.onrender.com/api/recruitment', { name, position })
+        axios.post('https://dashboardbe-4.onrender.com/api/recruitment', { name, position })
             .then(() => {
                 // Navigate to the RecruitmentProcess page after successful addition
                 navigate('/recruitment'); // Adjust this if RecruitmentProcess is not at '/recruitment'

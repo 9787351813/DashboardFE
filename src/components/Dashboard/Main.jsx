@@ -15,7 +15,7 @@ const Dashboard = () => {
     });
 
     useEffect(() => {
-        axios.get('https://dashboardbe-3.onrender.com/api/main')
+        axios.get('https://dashboardbe-4.onrender.com/api/main')
             .then(response => {
                 setData(response.data);
             })
