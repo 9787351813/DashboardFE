@@ -18,7 +18,7 @@ const ManageEmployee = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/employees');
+      const response = await axios.get('https://dashboardbe-3.onrender.com/api/employees');
       setEmployees(response.data);
     } catch (error) {
       console.error('Error fetching employees:', error);
@@ -34,7 +34,7 @@ const ManageEmployee = () => {
 
   const handleAddEmployee = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/employees', newEmployee);
+      const response = await axios.post('https://dashboardbe-3.onrender.com/api/employees', newEmployee);
       setEmployees([...employees, response.data]);
       setNewEmployee({ name: '', personalInfo: '', contactDetails: '', jobRole: '', department: '' });
     } catch (error) {
@@ -44,7 +44,7 @@ const ManageEmployee = () => {
 
   const handleDeleteEmployee = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/employees/${id}`);
+      await axios.delete(`https://dashboardbe-3.onrender.com/api/employees/${id}`);
       setEmployees(employees.filter(employee => employee._id !== id));
     } catch (error) {
       console.error('Error deleting employee:', error);

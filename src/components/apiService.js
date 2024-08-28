@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api', // Your backend URL
+  baseURL: 'https://dashboardbe-3.onrender.com/api', // Your backend URL
 });
 
 // Add a request interceptor to include the token

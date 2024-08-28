@@ -18,7 +18,7 @@ const Attendance = () => {
 
   const fetchAttendance = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/attendance');
+      const response = await axios.get('https://dashboardbe-3.onrender.com/api/attendance');
       if (Array.isArray(response.data)) {
         setAttendanceList(response.data);
       } else {
@@ -33,12 +33,12 @@ const Attendance = () => {
     e.preventDefault();
     try {
       if (isEditing) {
-        const response = await axios.put(`http://localhost:3000/api/attendance/${editId}`, { date, staff, status });
+        const response = await axios.put(`https://dashboardbe-3.onrender.com/api/attendance/${editId}`, { date, staff, status });
         setAttendanceList(attendanceList.map(item => item._id === editId ? response.data : item));
         setIsEditing(false);
         setEditId(null);
       } else {
-        const response = await axios.post('http://localhost:3000/api/attendance/add', { date, staff, status });
+        const response = await axios.post('https://dashboardbe-3.onrender.com/api/attendance/add', { date, staff, status });
         setAttendanceList([...attendanceList, response.data]);
       }
       setDate('');
@@ -59,7 +59,7 @@ const Attendance = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/attendance/${id}`);
+      await axios.delete(`https://dashboardbe-3.onrender.com/api/attendance/${id}`);
       setAttendanceList(attendanceList.filter(item => item._id !== id));
     } catch (error) {
       console.error('Error deleting attendance:', error.response ? error.response.data : error.message);

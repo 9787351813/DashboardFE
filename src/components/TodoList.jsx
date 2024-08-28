@@ -41,7 +41,7 @@ const TodoList = () => {
 
     const handleDeleteTodo = async (id) => {
         try {
-            await axios.delete(`http://localhost:3000/api/todos/${id}`);
+            await axios.delete(`https://dashboardbe-3.onrender.com/api/todos/${id}`);
             fetchTodos();
         } catch (error) {
             console.error('Error deleting todo:', error);

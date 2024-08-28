@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './DashboardNavbar'; // Adjust the path based on your folder structure
-import DashboardCard from '../DashboardCards'; 
+import DashboardCards from '../DashboardCards'; 
 import Chart from '../Chart';
 import TodoList from '../TodoList';
 import axios from 'axios';
@@ -15,7 +15,7 @@ const Dashboard = () => {
     });
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/main')
+        axios.get('https://dashboardbe-3.onrender.com/api/main')
             .then(response => {
                 setData(response.data);
             })

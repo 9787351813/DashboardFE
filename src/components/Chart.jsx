@@ -30,7 +30,7 @@ const ChartComponent = () => {
 
     useEffect(() => {
         // Replace with your API endpoint
-        axios.get('http://localhost:3000/api/attendance/data')
+        axios.get('https://dashboardbe-3.onrender.com/api/attendance/data')
             .then(response => {
                 setAttendanceData(response.data);
             })

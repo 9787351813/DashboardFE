@@ -6,7 +6,7 @@ const ApplicationTable = ({ onSelect, onDelete }) => {
     const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/recruitment')
+        axios.get('https://dashboardbe-3.onrender.com/api/recruitment')
             .then(response => {
                 setEmployees(response.data);
             })
@@ -16,7 +16,7 @@ const ApplicationTable = ({ onSelect, onDelete }) => {
     }, []);
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:3000/api/recruitment/${id}`)
+        axios.delete(`https://dashboardbe-3.onrender.com/api/recruitment/${id}`)
             .then(() => {
                 setEmployees(employees.filter(emp => emp._id !== id));
                 onDelete(id);
@@ -27,7 +27,7 @@ const ApplicationTable = ({ onSelect, onDelete }) => {
     };
 
     const handleSelect = (employee) => {
-        axios.patch(`http://localhost:3000/api/recruitment/${employee._id}`, { status: 'Selected' })
+        axios.patch(`https://dashboardbe-3.onrender.com/api/recruitment/${employee._id}`, { status: 'Selected' })
             .then(() => {
                 onSelect(employee);
             })

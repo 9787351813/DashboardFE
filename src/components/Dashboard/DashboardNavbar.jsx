@@ -17,7 +17,7 @@ const Navbar = () => {
         if (!token) {
           return;
         }
-        const response = await axios.get('http://localhost:3000/api/auth/profile', {
+        const response = await axios.get('https://dashboardbe-3.onrender.com/api/auth/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

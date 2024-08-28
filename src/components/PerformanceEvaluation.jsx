@@ -14,7 +14,7 @@ const PerformanceTable = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/performance');
+                const response = await axios.get('https://dashboardbe-3.onrender.com/api/performance');
                 setPerformances(response.data);
             } catch (error) {
                 console.error('Error fetching performance data:', error);
@@ -45,7 +45,7 @@ const PerformanceTable = () => {
     const handleSave = async () => {
         if (isNew) {
             try {
-                const response = await axios.post('http://localhost:3000/api/performance', formData);
+                const response = await axios.post('https://dashboardbe-3.onrender.com/api/performance', formData);
                 setPerformances([...performances, response.data]);
                 alert('Added successfully');
             } catch (error) {
@@ -59,7 +59,7 @@ const PerformanceTable = () => {
 
     const handleUpdate = async () => {
         try {
-            const response = await axios.put(`http://localhost:3000/api/performance/${selectedPerformance._id}`, formData);
+            const response = await axios.put(`https://dashboardbe-3.onrender.com/api/performance/${selectedPerformance._id}`, formData);
             setPerformances(performances.map(p => p._id === selectedPerformance._id ? response.data : p));
             alert('Updated successfully');
         } catch (error) {
@@ -69,7 +69,7 @@ const PerformanceTable = () => {
 
     const handleDelete = async (id) => {
       try {
-          await axios.delete(`http://localhost:3000/api/performance/${id}`);
+          await axios.delete(`https://dashboardbe-3.onrender.com/api/performance/${id}`);
           setPerformances(performances.filter(p => p._id !== id));
           alert('Deleted successfully');
       } catch (error) {

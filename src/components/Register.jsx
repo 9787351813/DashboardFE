@@ -22,7 +22,7 @@ const Register = () => {
     console.log('Submitting registration data:', requestData);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', requestData);
+      const response = await axios.post('https://dashboardbe-3.onrender.com/api/auth/register', requestData);
       console.log('Registration successful:', response.data);
       navigate('/login');
     } catch (error) {
