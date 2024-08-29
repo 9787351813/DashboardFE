@@ -57,7 +57,7 @@ const Navbar = () => {
         )}
         <div className="avatar-container" onClick={() => navigate('/profile')}>
           <img src="https://static.vecteezy.com/system/resources/previews/002/002/297/non_2x/beautiful-woman-avatar-character-icon-free-vector.jpg" alt="User Avatar" className="avatar" />
-          <span className="welcome-message">Hi {userData.firstName || 'User'}</span>
+          <span className="welcome-message">Hi {userData?.firstName}</span>
         </div>
         
       </div>
