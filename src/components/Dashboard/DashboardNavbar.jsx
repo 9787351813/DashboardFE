@@ -30,6 +30,7 @@ const Navbar = () => {
 
     fetchUserData();
   }, []);
+  console.log(userData.firstName);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
